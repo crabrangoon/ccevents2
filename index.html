@@ -1,13 +1,16 @@
+
 <!doctype html>
-<html lang="en">
+<html lang="en-AU">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <meta
     name="description"
     content="Discover local events, connect with people, and explore what makes our community special."
   >
-  <title>Community Compass</title>
+
+  <title>Community Compass | Find your way to community</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,12 +18,15 @@
     href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Nunito+Sans:wght@400;600;700;800&display=swap"
     rel="stylesheet"
   >
+
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <main>
     <div class="page">
+
+      <!-- Header and logo -->
       <header class="site-header">
         <a href="#home" aria-label="Community Compass home">
           <img
@@ -31,9 +37,17 @@
         </a>
       </header>
 
-      <section class="hero" id="home" aria-labelledby="main-heading">
+      <!-- Introduction -->
+      <section
+        class="hero"
+        id="home"
+        aria-labelledby="main-heading"
+      >
         <p class="eyebrow">Community Compass</p>
-        <h1 id="main-heading">Find your way to community.</h1>
+
+        <h1 id="main-heading">
+          Find your way to community.
+        </h1>
 
         <p class="hero-intro">
           Discover what's happening in your local area, connect with the people
@@ -49,10 +63,19 @@
         <div class="accent" aria-hidden="true"></div>
       </section>
 
-      <section class="events-section" aria-labelledby="events-heading">
+      <!-- Upcoming events -->
+      <section
+        class="events-section"
+        id="events"
+        aria-labelledby="events-heading"
+      >
         <div class="section-heading">
           <p class="eyebrow">Upcoming events</p>
-          <h2 id="events-heading">What's happening in our community?</h2>
+
+          <h2 id="events-heading">
+            What's happening in our community?
+          </h2>
+
           <p>
             From local gatherings and workshops to activities and events, find
             out what's coming up and discover new ways to connect with your
@@ -65,15 +88,28 @@
           <p>Discover what's on and find something to get involved in.</p>
         </div>
 
-        <div id="events-list" class="events-grid" aria-live="polite">
-          <!-- The Google Sheets script can add event cards here. -->
+        <div
+          id="events-list"
+          class="events-grid"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <p class="events-message">Loading upcoming events...</p>
         </div>
       </section>
 
-      <section class="map-section" aria-labelledby="map-heading">
+      <!-- Community map and directory -->
+      <section
+        class="map-section"
+        aria-labelledby="map-heading"
+      >
         <div class="map-card">
           <p class="eyebrow">Community Compass</p>
-          <h2 id="map-heading">A map of what makes our community special.</h2>
+
+          <h2 id="map-heading">
+            A map of what makes our community special.
+          </h2>
+
           <p>
             Our community is full of people, places, groups, activities and
             resources that matter. We're working towards a free,
@@ -81,6 +117,7 @@
             together, making them easier to discover and helping us see all
             that our community has to offer.
           </p>
+
           <p>
             It's a resource that will grow with the people who know and care
             about this place.
@@ -88,10 +125,404 @@
         </div>
       </section>
 
+      <!-- Footer -->
       <footer class="site-footer">
         <p>Community Compass</p>
       </footer>
+
     </div>
   </main>
+
+  <!-- CSV parser -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- Community Compass events -->
+  <script>
+    /*
+      GOOGLE SHEETS CSV URL
+
+      This is the published CSV URL from your previous script.
+    */
+
+    const EVENTS_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzWkD0PtNG9hzwjUxs2OkV6Y6aNHvb1jhDmO496urfI4mVb4BWT2M-E6B2YaSzxcSztOd1eiIVSdJB/pub?gid=307861297&single=true&output=csv";
+
+    const eventList = document.getElementById("events-list");
+
+    /*
+      Map spreadsheet column headings to JavaScript field names.
+    */
+
+    const columnMap = {
+      "Timestamp": "timestamp",
+      "Event name": "title",
+      "Event date": "date",
+      "Start time": "startTime",
+      "End time": "endTime",
+      "Location": "location",
+      "Event description": "description",
+      "Organizer": "organizer",
+      "Contact e-mail": "contactEmail",
+      "URL": "url",
+      "Status": "status"
+    };
+
+    /*
+      Create HTML elements safely.
+      Spreadsheet content is inserted as text, not HTML.
+    */
+
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+
+      if (className) {
+        element.className = className;
+      }
+
+      if (text !== undefined) {
+        element.textContent = text;
+      }
+
+      return element;
+    }
+
+    /*
+      Parse Australian dates in DD/MM/YYYY format.
+      Invalid dates return null.
+    */
+
+    function parseEventDate(value) {
+      if (typeof value !== "string") {
+        return null;
+      }
+
+      const match = value.trim().match(
+        /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+      );
+
+      if (!match) {
+        return null;
+      }
+
+      const day = Number(match[1]);
+      const month = Number(match[2]);
+      const year = Number(match[3]);
+
+      const date = new Date(year, month - 1, day);
+
+      if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+      ) {
+        return null;
+      }
+
+      return date;
+    }
+
+    /*
+      Format a date for the event card.
+    */
+
+    function formatDateTime(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    /*
+      Normalise spreadsheet time values for display.
+    */
+
+    function formatTime(value) {
+      return (value || "")
+        .trim()
+        .replace(
+          /^(\d{1,2}:\d{2}):\d{2}(\s*[AP]M)?$/i,
+          "$1$2"
+        );
+    }
+
+    /*
+      Create an individual event card.
+    */
+
+    function makeEventCard(event) {
+      const card = makeElement("article", "event-card");
+
+      const date = parseEventDate(event.date);
+
+      // The event list is filtered before cards are created.
+      if (!date) {
+        return card;
+      }
+
+      const dateBox = makeElement("time", "event-date");
+      dateBox.dateTime = formatDateTime(date);
+
+      dateBox.append(
+        makeElement(
+          "span",
+          "",
+          date.toLocaleDateString("en-AU", {
+            month: "short"
+          })
+        ),
+        makeElement("strong", "", String(date.getDate()))
+      );
+
+      const content = document.createElement("div");
+
+      const startTime = formatTime(event.startTime);
+      const endTime = formatTime(event.endTime);
+      const location = (event.location || "").trim();
+
+      let timeRange = "";
+
+      if (startTime && endTime) {
+        timeRange = `${startTime}–${endTime}`;
+      } else {
+        timeRange = startTime || endTime;
+      }
+
+      const metaText = [timeRange, location]
+        .filter(Boolean)
+        .join(" · ");
+
+      content.append(
+        makeElement("h4", "", (event.title || "").trim()),
+        makeElement("p", "event-meta", metaText),
+        makeElement(
+          "p",
+          "event-description",
+          (event.description || "").trim()
+        )
+      );
+
+      // Display the organiser, if provided.
+      const organizer = (event.organizer || "").trim();
+
+      if (organizer) {
+        content.append(
+          makeElement(
+            "p",
+            "event-meta",
+            `Organised by: ${organizer}`
+          )
+        );
+      }
+
+      // Display the contact email, if provided.
+      const contactEmail = (event.contactEmail || "").trim();
+
+      if (contactEmail) {
+        const emailParagraph = makeElement("p", "event-meta");
+        const emailLink = makeElement("a", "", contactEmail);
+
+        emailLink.href = `mailto:${contactEmail}`;
+
+        emailParagraph.append("Contact: ", emailLink);
+        content.append(emailParagraph);
+      }
+
+      /*
+        Only allow HTTP and HTTPS links from the spreadsheet.
+      */
+
+      const eventUrl = (event.url || "").trim();
+
+      if (eventUrl) {
+        try {
+          const url = new URL(eventUrl);
+
+          if (["https:", "http:"].includes(url.protocol)) {
+            const link = makeElement(
+              "a",
+              "event-link",
+              "Event details ↗"
+            );
+
+            link.href = url.href;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            content.append(link);
+          }
+        } catch (error) {
+          // Ignore invalid URLs.
+        }
+      }
+
+      card.append(dateBox, content);
+
+      return card;
+    }
+
+    /*
+      Load, filter and display upcoming events.
+    */
+
+    async function loadEvents() {
+      eventList.setAttribute("aria-busy", "true");
+
+      try {
+        if (typeof Papa === "undefined") {
+          throw new Error("The CSV parser could not be loaded.");
+        }
+
+        const csvUrl = new URL(EVENTS_CSV_URL);
+
+        // Ask the browser to fetch a fresh copy.
+        csvUrl.searchParams.set("_refresh", Date.now().toString());
+
+        const response = await fetch(csvUrl, {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Could not load events (HTTP ${response.status}).`
+          );
+        }
+
+        const csv = await response.text();
+
+        const result = Papa.parse(csv, {
+          header: true,
+          skipEmptyLines: true,
+
+          transformHeader: header => {
+            const name = header
+              .trim()
+              .replace(/^\uFEFF/, "");
+
+            return columnMap[name] || name;
+          }
+        });
+
+        if (result.errors.length > 0) {
+          console.warn(
+            "Some CSV rows could not be parsed:",
+            result.errors
+          );
+        }
+
+        /*
+          Confirm that the CSV contains the expected headings.
+        */
+
+        const fields = result.meta.fields || [];
+
+        const requiredColumns = [
+          "title",
+          "date",
+          "status"
+        ];
+
+        const missingColumns = requiredColumns.filter(
+          column => !fields.includes(column)
+        );
+
+        if (missingColumns.length > 0) {
+          throw new Error(
+            "The CSV is missing expected columns: " +
+            missingColumns.join(", ")
+          );
+        }
+
+        /*
+          Compare calendar dates in the visitor's local timezone.
+          Events happening today remain visible.
+        */
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const events = result.data
+          .filter(event => {
+            const status = (event.status || "")
+              .trim()
+              .toLowerCase();
+
+            if (status !== "published") {
+              return false;
+            }
+
+            if (!(event.title || "").trim()) {
+              return false;
+            }
+
+            const date = parseEventDate(event.date);
+
+            if (!date) {
+              return false;
+            }
+
+            date.setHours(0, 0, 0, 0);
+
+            return date >= today;
+          })
+          .sort((a, b) => {
+            return (
+              parseEventDate(a.date) -
+              parseEventDate(b.date)
+            );
+          });
+
+        /*
+          Clear the loading message before displaying results.
+        */
+
+        eventList.replaceChildren();
+
+        if (events.length === 0) {
+          eventList.append(
+            makeElement(
+              "p",
+              "events-message",
+              "No upcoming events just yet. Check back soon!"
+            )
+          );
+
+          return;
+        }
+
+        /*
+          Build the event cards and add them to the page.
+        */
+
+        const fragment = document.createDocumentFragment();
+
+        events.forEach(event => {
+          fragment.append(makeEventCard(event));
+        });
+
+        eventList.append(fragment);
+
+      } catch (error) {
+        console.error(
+          "Community Compass events error:",
+          error
+        );
+
+        eventList.replaceChildren(
+          makeElement(
+            "p",
+            "events-message",
+            "We couldn't load upcoming events just now. Please try again later."
+          )
+        );
+
+      } finally {
+        eventList.setAttribute("aria-busy", "false");
+      }
+    }
+
+    loadEvents();
+  </script>
+
 </body>
 </html>
