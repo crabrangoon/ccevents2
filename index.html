@@ -3,73 +3,95 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Discover local events and explore what makes our community special.">
+  <meta
+    name="description"
+    content="Discover local events, connect with people, and explore what makes our community special."
+  >
   <title>Community Compass</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Nunito+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  >
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <header class="site-header">
-    <a class="site-name" href="#home">COMMUNITY COMPASS</a>
-  </header>
+  <main>
+    <div class="page">
+      <header class="site-header">
+        <a href="#home" aria-label="Community Compass home">
+          <img
+            class="logo"
+            src="images/community-compass-logo.webp"
+            alt="Community Compass"
+          >
+        </a>
+      </header>
 
-  <main id="home">
-    <section class="intro page-width" aria-labelledby="intro-title">
-      <p class="eyebrow">COMMUNITY COMPASS</p>
-      <h1 id="intro-title">Find your way to community.</h1>
-      <p class="intro-copy">
-        Discover what's happening in your local area, connect with the people
-        around you, and explore the places and activities that make our
-        community special.
-      </p>
-      <p class="supporting-line">
-        A community-shaped resource, growing with the people who make this
-        place what it is.
-      </p>
-    </section>
+      <section class="hero" id="home" aria-labelledby="main-heading">
+        <p class="eyebrow">Community Compass</p>
+        <h1 id="main-heading">Find your way to community.</h1>
 
-    <section class="events-section" aria-labelledby="events-title">
-      <div class="page-width">
-        <h2 id="events-title">What's happening in our community?</h2>
-        <p class="section-intro">
-          From local gatherings and workshops to activities and events, find
-          out what's coming up and discover new ways to connect with your
-          community.
+        <p class="hero-intro">
+          Discover what's happening in your local area, connect with the people
+          around you, and explore the places and activities that make our
+          community special.
         </p>
 
-        <h3 class="events-title">Upcoming events</h3>
-        <p>Discover what's on and find something to get involved in.</p>
+        <p class="hero-supporting">
+          A community-shaped resource, growing with the people who make this
+          place what it is.
+        </p>
+
+        <div class="accent" aria-hidden="true"></div>
+      </section>
+
+      <section class="events-section" aria-labelledby="events-heading">
+        <div class="section-heading">
+          <p class="eyebrow">Upcoming events</p>
+          <h2 id="events-heading">What's happening in our community?</h2>
+          <p>
+            From local gatherings and workshops to activities and events, find
+            out what's coming up and discover new ways to connect with your
+            community.
+          </p>
+        </div>
+
+        <div class="events-intro">
+          <h3>Upcoming events</h3>
+          <p>Discover what's on and find something to get involved in.</p>
+        </div>
 
         <div id="events-list" class="events-grid" aria-live="polite">
-          <!-- Event cards will be added here by the Google Sheets script. -->
+          <!-- The Google Sheets script can add event cards here. -->
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="map-section page-width" aria-labelledby="map-title">
-      <div class="map-copy">
-        <h2 id="map-title">A map of what makes our community special.</h2>
-        <p>
-          Our community is full of people, places, groups, activities and
-          resources that matter. We're working towards a free, community-shaped
-          map and directory that brings these local assets together, making
-          them easier to discover and helping us see all that our community
-          has to offer.
-        </p>
-        <p>
-          It's a resource that will grow with the people who know and care
-          about this place.
-        </p>
-      </div>
-    </section>
+      <section class="map-section" aria-labelledby="map-heading">
+        <div class="map-card">
+          <p class="eyebrow">Community Compass</p>
+          <h2 id="map-heading">A map of what makes our community special.</h2>
+          <p>
+            Our community is full of people, places, groups, activities and
+            resources that matter. We're working towards a free,
+            community-shaped map and directory that brings these local assets
+            together, making them easier to discover and helping us see all
+            that our community has to offer.
+          </p>
+          <p>
+            It's a resource that will grow with the people who know and care
+            about this place.
+          </p>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <p>Community Compass</p>
+      </footer>
+    </div>
   </main>
-
-  <footer class="site-footer">
-    <div class="page-width">COMMUNITY COMPASS</div>
-  </footer>
 </body>
 </html>
