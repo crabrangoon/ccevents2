@@ -155,12 +155,13 @@ Sign up for occasional updates as Community Compass grows, with news on our prog
       "Start time": "startTime",
       "End time": "endTime",
       "Location": "location",
+      "Location URL": "locationUrl",
       "Event description": "description",
       "Organizer": "organizer",
       "Contact e-mail": "contactEmail",
       "URL": "url",
       "Status": "status"
-    };
+      };
 
     /*
       Create HTML elements safely.
@@ -348,6 +349,31 @@ Sign up for occasional updates as Community Compass grows, with news on our prog
           }
         } catch (error) {
           // Ignore invalid URLs.
+        }
+      }
+    
+      // NEW: Get Directions button
+      const locationUrl = (event.locationUrl || "").trim();
+
+      if (locationUrl) {
+        try {
+          const url = new URL(locationUrl);
+
+          if (["https:", "http:"].includes(url.protocol)) {
+            const link = makeElement(
+              "a",
+              "event-link",
+              "Get Directions ↗"
+            );
+
+            link.href = url.href;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            content.append(link);
+          }
+        } catch (error) {
+          // Ignore invalid location URLs.
         }
       }
 
