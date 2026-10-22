@@ -98,13 +98,13 @@ h1 { margin: 0 0 22px; font-size: clamp(40px, 7vw, 64px); line-height: 1.08; }
 
 /* Button styling */
 
-.button { display: inline-block; max-width: 100%; margin-top: 8px; margin-right: 16px; padding: 10px 18px; border-radius: 6px; color: #ffffff; font-family: var(--body-font); font-size: 15px; font-weight: 800; line-height: 1.4; text-align: center; text-decoration: none; overflow-wrap: anywhere; }
+.button { display: inline-block; max-width: 100%; margin-top: 8px; margin-right: 16px; padding: 10px 18px; border-radius: 6px;font-family: var(--body-font); font-size: 15px; font-weight: 800; line-height: 1.4; text-align: center; text-decoration: none; overflow-wrap: anywhere; }
 
 .button:focus-visible { outline-offset: 4px; }
 
 /* Event details link */
 
-.event-link { border: 2px solid var(--black); background: var(--black); transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+.event-link { color: #ffffff; border: 2px solid var(--black); background: var(--black); transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
 
 .event-link:hover { border-color: var(--teal); background: var(--teal); color: var(--black); }
 
@@ -112,9 +112,9 @@ h1 { margin: 0 0 22px; font-size: clamp(40px, 7vw, 64px); line-height: 1.08; }
 
 /* Location link */
 
-.location-link { border: 2px solid var(--teal); background: var(--teal); transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+.location-link { color: #000000; border: 2px solid var(--teal); background: var(--teal); transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
 
-.location-link:hover { border-color: var(--black); background: var(--black); color: var(--teal); }
+.location-link:hover { border-color: var(--yellow); background: var(--black); color: var(--yellow); }
 
 .location-link:focus-visible { outline: 3px solid var(--pink);}
 
