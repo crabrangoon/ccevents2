@@ -269,7 +269,7 @@ Sign up for occasional updates as Community Compass grows, with news on our prog
         makeElement("strong", "", String(date.getDate()))
       );
 
-      const content = document.createElement("div");
+      const content = makeElement("div", "event-content");
 
       const startTime = formatTime(event.startTime);
       const endTime = formatTime(event.endTime);
