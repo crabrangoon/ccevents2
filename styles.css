@@ -64,7 +64,7 @@ a:focus-visible {
 
 .logo {
   display: block;
-  width: min(360px, 75vw);
+  width: min(420px, 85vw);
   height: auto;
   margin: 0 auto 48px;
 }
