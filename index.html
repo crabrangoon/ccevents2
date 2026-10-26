@@ -45,7 +45,7 @@
       >
        
         <h1 id="main-heading">
-          Find Your Way to Community.
+          Find Your Way to Community
         </h1>
 
         <p class="hero-intro">
@@ -100,18 +100,104 @@
             A Map of What Makes Our Community Special.
           </h2>
 
-          <p>
-            There's lots happening in our community. Community Compass makes it easier to find local places, groups, activities and resources in a free community-shaped map and directory
-
-Sign up for occasional updates as Community Compass grows, with news about new features, local discoveries and what’s happening in the community.          </p>
-
           
-        </div>
+<p>
+  There's lots happening in our community. Community Compass makes it
+  easier to find local places, groups, activities and resources through
+  a free, community-shaped map and directory.
+</p>
+
+<p>
+  Sign up for occasional updates as Community Compass grows, with news
+  about new features, local discoveries and what's happening in the community.
+</p>
+
+<!-- Sign-up form -->
+<div class="signup-card">
+  <h3 id="signup-heading">Keep in touch</h3>
+
+  <form
+    action="https://api.web3forms.com/submit"
+    method="POST"
+    class="signup-form"
+  >
+    <input
+      type="hidden"
+      name="access_key"
+      value="7e668464-619a-4ff5-86f1-8d2784d96773"
+    >
+
+    <input
+      type="hidden"
+      name="subject"
+      value="Community Compass - Updates Signup"
+    >
+
+    <!-- Spam protection -->
+    <input
+      type="checkbox"
+      name="botcheck"
+      style="display:none"
+      tabindex="-1"
+      autocomplete="off"
+    >
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="signup-name">Name</label>
+        <input
+          type="text"
+          id="signup-name"
+          name="name"
+          placeholder="Your name"
+          autocomplete="name"
+          required
+        >
+      </div>
+
+      <div class="form-field">
+        <label for="signup-email">Email address</label>
+        <input
+          type="email"
+          id="signup-email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="consent">
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          name="consent"
+          value="I consent to receiving Community Compass updates."
+          required
+        >
+        <span>
+          I'd like to receive occasional updates from Community Compass.
+        </span>
+      </label>
+    </div>
+
+    <button type="submit" class="signup-button">
+      Keep me updated
+    </button>
+
+    <p class="form-note">
+      We'll only use your details to send Community Compass updates.
+      You can unsubscribe at any time.
+    </p>
+  </form>
+</div>
+
       </section>
 
       <!-- Footer -->
       <footer class="site-footer">
-        <p>Community Compass</p>
+        <p>We acknowledge the Traditional Custodians of the lands and waters on which we live and connect. We pay our respects to Elders past and present.</p>
       </footer>
 
     </div>
