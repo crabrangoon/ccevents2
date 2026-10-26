@@ -390,9 +390,10 @@ h1 {
   background: var(--cream);
 }
 
-.signup-content h3 {
+.signup-card h3 {
   margin: 0 0 8px;
   font-size: 26px;
+  text-align: center;
 }
 
 .signup-content p {
