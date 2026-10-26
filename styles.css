@@ -383,7 +383,7 @@ h1 {
 
 .signup-card {
   margin-top: 12px;
-  padding: 8px 0 28px;
+  padding: 28px 0;
   border: none;
   border-radius: 16px;
   background: var(--cream);
