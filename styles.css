@@ -454,7 +454,7 @@ h1 {
 .checkbox-label input {
   width: 18px;
   height: 18px;
-  margin-top: 5px;
+  margin-top: 3px;
   flex-shrink: 0;
   accent-color: var(--teal);
 }
