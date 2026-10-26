@@ -382,8 +382,8 @@ h1 {
 /* Newsletter sign-up */
 
 .signup-card {
-  margin-top: 32px;
-  padding: 28px;
+  margin-top: 12px;
+  padding: 8px 0 28px;
   border: none;
   border-radius: 16px;
   background: var(--cream);
